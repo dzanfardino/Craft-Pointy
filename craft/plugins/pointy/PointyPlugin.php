@@ -21,7 +21,17 @@ class PointyPlugin extends BasePlugin {
 
 	function getDeveloperUrl()
 	{
-		return 'http://iain.co.nz';
+		return 'http://danielezanfardino.com';
 	}
+
+    /**
+     * Returns the plugin’s release feed.
+     *
+     * @return JSON
+     */
+    public function getReleaseFeedUrl()
+    {
+        return 'https://raw.githubusercontent.com/dzanfardino/Craft-Pointy/master/releases.json';
+    }
 
 }

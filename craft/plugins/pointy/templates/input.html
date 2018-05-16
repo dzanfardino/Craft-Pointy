@@ -1,44 +1,54 @@
+{% includeJsResource('pointy/vendor/blowup.min.js') %}
 {% includeJsResource('pointy/pointy.js') %}
 
 {% import "_includes/forms" as forms %}
+<div class="btn add icon dashed js-add-image" data-asset-source="{{ uploadFolderId }}">Upload Image</div>
 
-{% if settings.fixedImageUrl is not null %}
 <div class="pointy-image-wrapper">
-    <img src="{{ settings.fixedImageUrl }}" class="pointy-image">
-    <div class="pointy-marker" style="top: {{y-6}}px; left: {{x-6}}px;"></div>
+    <img src="{{ settings.imageTypes == 'Fixed' ? settings.fixedImageUrl : (assetId ? assetUrl : '') }}" class="js-magnify pointy-image">
+    <div class="js-marker pointy-marker" data-x="{{ x }}" data-y="{{ y }}" style=""></div>
 </div>
-{% endif %}
+
 
 {{ forms.textField({
-	label: "X Coordinate"|t,
-	class: 'pointy-coord pointy-x',
-	name: name ~ '[x]',
-	value: x,
-	size: '10'
+label: "X Coordinate"|t,
+class: 'js-pointy-coord pointy-x',
+name: name ~ '[x]',
+value: x,
+size: '10'
 }) }}
 
 {{ forms.textField({
-	label: "Y Coordinate"|t,
-	class: 'pointy-coord pointy-y',
-	name: name ~ '[y]',
-	value: y,
-	size: '10'
+label: "Y Coordinate"|t,
+class: 'js-pointy-coord pointy-y',
+name: name ~ '[y]',
+value: y,
+size: '10'
 }) }}
+
+
+<input type="hidden" name="spotTheBallCoordinates[assetId]" class="js-assetId-input" value="{{ assetId }}">
 
 <!-- @todo -->
 <style>
-	.pointy-image-wrapper {position: relative;}
-	.pointy-marker {
-		width: 8px; height: 8px; background: red; display: block; position: absolute;
-		border-radius: 10px;
-		border: 1px solid #fff;
-		-webkit-animation-name: pulse;
-		-webkit-animation-duration: 1.5s;
-		-webkit-animation-iteration-count: infinite;
-	}
-	@-webkit-keyframes pulse {
-    0% {-webkit-transform: scale(1, 1);}
-    50% {-webkit-transform: scale(1.8, 1.8);}
-    100% {-webkit-transform: scale(1, 1);}
-}
+    .pointy-image-wrapper {
+        position: relative;
+
+    }
+
+    .pointy-image {
+        cursor: crosshair;
+    }
+
+    .pointy-marker {
+        width: 20px;
+        height: 20px;
+        background-image: url({{ resourceUrl('pointy/crosshair.png') }});
+        background-size: cover;
+        display: block;
+        position: absolute;
+        border-radius: 10px;
+        border: 1px solid #fff;
+    }
+
 </style>

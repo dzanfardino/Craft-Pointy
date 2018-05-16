@@ -1,6 +1,23 @@
 <hr />
-
 {% import "_includes/forms" as forms %}
+
+{% macro uploadLocationInput(name, settings, sourceOptions) %}
+	{% from "_includes/forms" import select, text %}
+	<table class="inputs fullwidth">
+		<tr>
+			<td class="thin">
+				{{ select({
+				id: name~'Source',
+				name: name~'Source',
+				options: sourceOptions,
+				value: settings[name~'Source'],
+				}) }}
+			</td>
+		</tr>
+</table>
+{% endmacro %}
+{% from _self import uploadLocationInput %}
+
 
 {{ forms.selectField({
 	label: "Image Type"|t,
@@ -20,6 +37,13 @@
 	value: settings.fixedImageUrl,
 	translatable: true
 }) }}
+
+<div id="single-folder-settings">
+	{{ forms.field({
+	label: "Upload Location"|t,
+	errors: settings.getErrors('uploadLocationSource')
+	}, uploadLocationInput('uploadLocation', settings, sourceOptions)) }}
+</div>
 
 {% if settings.fixedImageUrl is not null %}
     <img src="{{ settings.fixedImageUrl }}">
